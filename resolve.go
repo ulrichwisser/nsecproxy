@@ -13,6 +13,9 @@ func resolve(config *Configuration, w dns.ResponseWriter, req *dns.Msg) {
 
 	re := regexp.MustCompile("nsec\\d")
 	switch re.FindString(dns.CanonicalName(qname)) {
+	case "nsec0":
+		log.Printf("routing NSEC0   request %s\n", qname)
+		resolveNSEC0(config, w, req)
 	case "nsec1":
 		log.Printf("routing NSEC    request %s to       %s\n", qname, config.UpstreamNSEC)
 		resolveUpstream(config.UpstreamNSEC, w, req)
@@ -45,6 +48,23 @@ func resolveUpstream(upstream string, w dns.ResponseWriter, req *dns.Msg) {
 		w.WriteMsg(resp)
 	}
 	return
+}
+
+func resolveNSEC0(config *Configuration, w dns.ResponseWriter, req *dns.Msg) {
+	resp1 := getAnswer(config.UpstreamNSEC, req)
+
+	auth := make([]dns.RR, 0)
+	for _, rr := range resp1.Ns {
+		if rr.Header().Rrtype == dns.TypeNSEC ||
+			rr.Header().Rrtype == dns.TypeNSEC3 ||
+			(rr.Header().Rrtype == dns.TypeRRSIG && rr.(*dns.RRSIG).TypeCovered == dns.TypeNSEC) ||
+			(rr.Header().Rrtype == dns.TypeRRSIG && rr.(*dns.RRSIG).TypeCovered == dns.TypeNSEC3) {
+			continue
+		}
+		auth = append(auth, rr)
+	}
+	resp1.Ns = auth
+	w.WriteMsg(resp1)
 }
 
 func resolveNSEC4(config *Configuration, w dns.ResponseWriter, req *dns.Msg) {
