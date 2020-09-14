@@ -51,6 +51,12 @@ func resolveNSEC4(config *Configuration, w dns.ResponseWriter, req *dns.Msg) {
 	resp := resp1.Copy()
 	for _, rr := range resp3.Ns {
 		log.Printf("Adding to resp: %s\n", rr.String())
+		if rr.Header().Rrtype == dns.TypeSOA {
+			continue
+		}
+		if rr.Header().Rrtype == dns.TypeRRSIG && rr.(*dns.RRSIG).TypeCovered == dns.TypeSOA {
+			continue
+		}
 		resp.Ns = append(resp.Ns, rr)
 	}
 
