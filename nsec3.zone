@@ -1,0 +1,74 @@
+@          	3600	SOA	ns.nic.se. hostmaster.nic.se. 3 60 60 60 60
+;
+; name server
+;
+@          	5	NS	ns.setest.se.
+ns       	5	A	54.154.70.90
+;
+; disable mail
+;
+@          	5	TXT	"v=spf1 -all"
+@          	5	MX	0 .
+_dmarc   	5	TXT	"v=DMARC1; p=reject; sp=reject; pct=100; rua=mailto:tiig3x8p@ag.dmarcian.eu; aspf=s; adkim=s;"
+
+; test for dnssec validation
+nsec0 5 TXT "from NSEC"
+
+; no data test - no wildcard
+nsec1.a        	5	TXT	"from NSEC"
+nsec3.a        	5	TXT	"from NSEC"
+nsec4.a        	5	TXT	"from NSEC"
+nsec5.a        	5	TXT	"from NSEC"
+
+; no data - wildcard
+*.nsec1.d        	5	TXT	"from NSEC"
+*.nsec3.d        	5	TXT	"from NSEC"
+*.nsec4.d        	5	TXT	"from NSEC"
+*.nsec5.d        	5	TXT	"from NSEC"
+
+; nxdomain - no wildcard
+b 5 TXT "from NSEC"
+nsec1.b 5 TXT "from NSEC"
+nsec3.b 5 TXT "from NSEC"
+nsec4.b 5 TXT "from NSEC"
+nsec5.b 5 TXT "from NSEC"
+
+; nxdomain - wildcard
+
+
+; failure - no nsec data
+a.nseca 5 TXT "from NSEC"
+
+; failure - NSEC does not cover label
+a.nsecb 5 TXT "from NSEC"
+c.nsecb 5 TXT "from NSEC"
+e.nsecb 5 TXT "from NSEC"
+
+; failure - NSEC3 does not cover label
+a.nsecc 5 TXT "from NSEC"
+c.nsecc 5 TXT "from NSEC"
+e.nsecc 5 TXT "from NSEC"
+
+; failure - NSEC and NSEC3 non covers label
+a.nsecd 5 TXT "from NSEC"
+c.nsecd 5 TXT "from NSEC"
+e.nsecd 5 TXT "from NSEC"
+
+; failure - NSEC does cover label, NSEC3 does not cover label
+a.nsece 5 TXT "from NSEC"
+c.nsece 5 TXT "from NSEC"
+e.nsece 5 TXT "from NSEC"
+
+; failure - NSEC does not cover label, NSEC3 does cover label
+a.nsecf 5 TXT "from NSEC"
+c.nsecf 5 TXT "from NSEC"
+e.nsecf 5 TXT "from NSEC"
+
+; failure - data with nsec
+a.nsecg 5 TXT "from NSEC"
+b.nsecg 5 TXT "from NSEC"
+c.nsecg 5 TXT "from NSEC"
+
+; failure - data with nsec3
+a.nsech 5 TXT "from NSEC"
+c.nsech 5 TXT "from NSEC"
