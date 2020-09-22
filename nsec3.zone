@@ -11,9 +11,6 @@ ns       	5	A	54.154.70.90
 @          	5	MX	0 .
 _dmarc   	5	TXT	"v=DMARC1; p=reject; sp=reject; pct=100; rua=mailto:tiig3x8p@ag.dmarcian.eu; aspf=s; adkim=s;"
 
-; test for dnssec validation
-nsec0 5 TXT "from NSEC3"
-
 ; no data test - no wildcard
 nsec1.a        	5	TXT	"from NSEC3"
 nsec3.a        	5	TXT	"from NSEC3"
@@ -21,20 +18,16 @@ nsec4.a        	5	TXT	"from NSEC3"
 nsec5.a        	5	TXT	"from NSEC3"
 
 ; no data - wildcard
-*.nsec1.d        	5	TXT	"from NSEC3"
-*.nsec3.d        	5	TXT	"from NSEC3"
-*.nsec4.d        	5	TXT	"from NSEC3"
-*.nsec5.d        	5	TXT	"from NSEC3"
+*.b 5 TXT "from NSEC3"
 
 ; nxdomain - no wildcard
-b 5 TXT "from NSEC3"
-nsec1.b 5 TXT "from NSEC3"
-nsec3.b 5 TXT "from NSEC3"
-nsec4.b 5 TXT "from NSEC3"
-nsec5.b 5 TXT "from NSEC3"
+c 5 TXT "from NSEC3"
 
-; nxdomain - wildcard
-
+; empty non terminal
+a.nsec1.d
+b.nsec3.d
+c.nsec4.d
+d.nsec5.d
 
 ; failure - no nsec data
 a.nseca 5 TXT "from NSEC3"

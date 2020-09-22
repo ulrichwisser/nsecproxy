@@ -18,20 +18,16 @@ nsec4.a        	5	TXT	"from NSEC"
 nsec5.a        	5	TXT	"from NSEC"
 
 ; no data - wildcard
-*.nsec1.d        	5	TXT	"from NSEC"
-*.nsec3.d        	5	TXT	"from NSEC"
-*.nsec4.d        	5	TXT	"from NSEC"
-*.nsec5.d        	5	TXT	"from NSEC"
+*.b 5 TXT "from NSEC"
 
 ; nxdomain - no wildcard
-b 5 TXT "from NSEC"
-nsec1.b 5 TXT "from NSEC"
-nsec3.b 5 TXT "from NSEC"
-nsec4.b 5 TXT "from NSEC"
-nsec5.b 5 TXT "from NSEC"
+c 5 TXT "from NSEC"
 
-; nxdomain - wildcard
-
+; empty non terminal
+a.nsec1.d
+b.nsec3.d
+c.nsec4.d
+d.nsec5.d
 
 ; failure - no nsec data
 a.nseca 5 TXT "from NSEC"
