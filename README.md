@@ -43,15 +43,15 @@ This software was developed and tested on an Ubuntu 20.04 server. Actually runni
 
 ### DNSSEC key management
 1. keymgr -c /etc/knot/knot-nsec.conf example.com generate ksk=yes
-2. remember the ksk-id written out by the command
-3. keymgr -c /etc/knot/knot-nsec.conf example.com generate
-4. remember the zsk-id written out by the command
-5. Copy keys to the other knot instance `cp -a /var/lib/knot/nsec/keys /var/lib/knot/nsec3/`
-6. keymgr -c /etc/knot/knot-nsec3.conf example.com import-pem /var/lib/knot/nsec3/keys/keys/<ksk-id>.pem ksk=yes
-7. keymgr -c /etc/knot/knot-nsec3.conf example.com import-pem /var/lib/knot/nsec3/keys/keys/<zsk-id>.pem
+1. remember the ksk-id written out by the command
+1. keymgr -c /etc/knot/knot-nsec.conf example.com generate
+1. remember the zsk-id written out by the command
+1. Copy keys to the other knot instance `cp -a /var/lib/knot/nsec/keys /var/lib/knot/nsec3/`
+1. keymgr -c /etc/knot/knot-nsec3.conf example.com import-pem /var/lib/knot/nsec3/keys/keys/<ksk-id>.pem ksk=yes
+1. keymgr -c /etc/knot/knot-nsec3.conf example.com import-pem /var/lib/knot/nsec3/keys/keys/<zsk-id>.pem
 
 ### Start knot servers
 1. `systemctl start knot@nsec`
-2. `systemctl start knot@nsec3`
+1. `systemctl start knot@nsec3`
 
 ## Install nsecproxy
