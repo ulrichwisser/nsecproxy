@@ -4,7 +4,7 @@ DNS proxy with special NSEC handling
 ## Introduction
 At the Swedish Internet Foundation we wanted to go over from NSEC3 to NSEC for the .nu ccTLD.
 
-According to RFC5155(https://tools.ietf.org/html/rfc5155#section-10.5) it is very easy
+According to [RFC5155](https://tools.ietf.org/html/rfc5155#section-10.5) it is very easy
 to change. Just remove NSEC3PARAM and all NSEC3 records from the zone, add NSEC records
 and everything should just work. (Attention! .nu uses algorithm 13 for signing, which supports NSEC and NSEC3.)
 
@@ -27,19 +27,19 @@ This software was developed and tested on an Ubuntu 20.04 server. Actually runni
 
 ## Install knot
 1. install knot package https://www.knot-dns.cz/docs/3.0/html/installation.html#installation-from-a-package
-2. install go `sudo apt install golang`
-3. copy this repository `go get github.com/ulrichwisser/nsecproxy`
-4. `cd $GOPATH/src/github.com/ulrichwisser/nsecproxy`
-5. `cp knot@.service /lib/systemd/system/`
-6. `cp knot-nsec*.conf /etc/knot/`
-7. mkdir /var/lib/knot/nsec
-8. mkdir /var/lib/knot/nsec3
-9. cp nsec.zone /var/lib/knot/nsec/example.com.zone
-10. cp nsec3.zone /var/lib/knot/nsec3/example.com.zone
-11. chown -R knot.knot /var/lib/knot/*
-12. mkdir /run/knot/nsec
-13. mkdir /run/knot/nsec3
-14. chown -R knot.knot /run/knot/*
+1. install go `sudo apt install golang`
+1. copy this repository `go get github.com/ulrichwisser/nsecproxy`
+1. `cd $GOPATH/src/github.com/ulrichwisser/nsecproxy`
+1. `cp knot@.service /lib/systemd/system/`
+1. `cp knot-nsec*.conf /etc/knot/`
+1. mkdir /var/lib/knot/nsec
+1. mkdir /var/lib/knot/nsec3
+1. cp nsec.zone /var/lib/knot/nsec/example.com.zone
+1. cp nsec3.zone /var/lib/knot/nsec3/example.com.zone
+1. chown -R knot.knot /var/lib/knot/*
+1. mkdir /run/knot/nsec
+1. mkdir /run/knot/nsec3
+1. chown -R knot.knot /run/knot/*
 
 ### DNSSEC key management
 1. keymgr -c /etc/knot/knot-nsec.conf example.com generate ksk=yes
