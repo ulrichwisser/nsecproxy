@@ -47,8 +47,8 @@ This software was developed and tested on an Ubuntu 20.04 server. Actually runni
 1. keymgr -c /etc/knot/knot-nsec.conf example.com generate
 1. remember the zsk-id written out by the command
 1. Copy keys to the other knot instance `cp -a /var/lib/knot/nsec/keys /var/lib/knot/nsec3/`
-1. keymgr -c /etc/knot/knot-nsec3.conf example.com import-pem /var/lib/knot/nsec3/keys/keys/<ksk-id>.pem ksk=yes
-1. keymgr -c /etc/knot/knot-nsec3.conf example.com import-pem /var/lib/knot/nsec3/keys/keys/<zsk-id>.pem
+1. keymgr -c /etc/knot/knot-nsec3.conf example.com import-pem /var/lib/knot/nsec3/keys/keys/&lt;ksk-id&gt;.pem ksk=yes
+1. keymgr -c /etc/knot/knot-nsec3.conf example.com import-pem /var/lib/knot/nsec3/keys/keys/&lt;zsk-id&gt;.pem
 
 ### Start knot servers
 1. `systemctl start knot@nsec`
