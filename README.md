@@ -22,6 +22,14 @@ special filtering dns proxy written in go.
 
 The client asks a list of predefined questions and writes the answers as json to stdout.
 
+## Test Domain
+For illustration purposes i have used example.com as main domain name in this documentation.
+You will need to use a real functional domain name controlled by you.
+Please replace "example.com" below with a domain name of your choosing.
+
+## Connectivity
+Nsecproxy can listen on IPv4 and IPv6, but it communicates over v4 with the authoritatives behind it.
+
 ## Installation Authoritative
 This software was developed and tested on an Ubuntu 20.04 server. Actually running on an AWS EC2 t2.micro instance.
 
