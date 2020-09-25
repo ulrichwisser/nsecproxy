@@ -9,7 +9,7 @@ User=knot
 Group=knot
 CapabilityBoundingSet=CAP_NET_BIND_SERVICE CAP_SETPCAP
 AmbientCapabilities=CAP_NET_BIND_SERVICE CAP_SETPCAP
-ExecStart=/usr/sbin/nsecproxy --conf /etc/nsecproxy/nsecproxy.conf
+ExecStart=/usr/sbin/nsecproxy --conf /etc/knot/nsecproxy.conf
 Restart=on-abort
 LimitNOFILE=1048576
 
