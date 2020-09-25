@@ -16,8 +16,7 @@ type Configuration struct {
 	Verbose       int
 	UpstreamNSEC  string
 	UpstreamNSEC3 string
-	ListenUDP     string
-	ListenTCP     string
+	IPlist        []string
 }
 
 func getConfig() *Configuration {
@@ -27,10 +26,7 @@ func getConfig() *Configuration {
 	// define and parse command line arguments
 	pflag.StringVar(&conffilename, "conf", "", "Filename to read configuration from")
 	pflag.CountVarP(&config.Verbose, "verbose", "v", "print more information while running")
-	pflag.StringVar(&config.UpstreamNSEC, "nsec", "", "list of upstream server dial definitions")
-	pflag.StringVar(&config.UpstreamNSEC3, "nsec3", "", "list of upstream server dial definitions")
-	pflag.StringVar(&config.ListenUDP, "udp", "", "list of upstream server dial definitions")
-	pflag.StringVar(&config.ListenTCP, "tcp", "", "list of upstream server dial definitions")
+	pflag.StringSliceVarP(&config.IPlist, "ip", "ip", []string{}, "IPv4 or IPv6 address(es) to listen on")
 	pflag.Parse()
 
 	var confFromFile *Configuration
@@ -100,15 +96,10 @@ func joinConfig(oldConf *Configuration, newConf *Configuration) (config *Configu
 	} else {
 		config.UpstreamNSEC3 = oldConf.UpstreamNSEC3
 	}
-	if newConf.ListenUDP != "" {
-		config.ListenUDP = newConf.ListenUDP
+	if len(newConf.IPlist) > 0 {
+		config.IPlist = newConf.IPlist
 	} else {
-		config.ListenUDP = oldConf.ListenUDP
-	}
-	if newConf.ListenTCP != "" {
-		config.ListenUDP = newConf.ListenTCP
-	} else {
-		config.ListenTCP = oldConf.ListenTCP
+		config.IPlist = oldConf.IPlist
 	}
 
 	// Done
@@ -121,6 +112,9 @@ func checkConfiguration(config *Configuration) *Configuration {
 	}
 	if len(config.UpstreamNSEC3) == 0 {
 		log.Fatal("NSEC3 Servers must be given.")
+	}
+	if len(config.IPlist) == 0 {
+		log.Fatal("IP addresses must be given.")
 	}
 
 	// Done

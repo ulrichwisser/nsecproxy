@@ -2,39 +2,50 @@ package main
 
 import (
 	"log"
+	"strings"
+	"sync"
 
 	"github.com/miekg/dns"
 )
 
 func main() {
+	log.SetFlags(0)
 	config := getConfig()
 
-	//
-	// Starting Servers
-	//
-	if config.Verbose > 0 {
-		log.Println("Startung UDP server ", config.ListenUDP)
-	}
-	udpServer := &dns.Server{Addr: config.ListenUDP, Net: "udp"}
-
-	if len(config.ListenTCP) > 0 {
-		if config.Verbose > 0 {
-			log.Println("Startung TCP server ", config.ListenTCP)
-		}
-		//tcpServer := &dns.Server{Addr: config.ListenTCP, Net: "tcp"}
-	} else {
-		if config.Verbose > 0 {
-			log.Println("No TCP server ")
-		}
-	}
 	// Start resolving
 	dns.HandleFunc(".", func(w dns.ResponseWriter, req *dns.Msg) {
 		go resolve(config, w, req)
 	})
 
-	//go func() {
-	log.Fatal(udpServer.ListenAndServe())
-	//}()
-	//log.Fatal(tcpServer.ListenAndServe())
+	//
+	// Starting Servers
+	//
+	var wg sync.WaitGroup
+	for _, ip := range config.IPlist {
+		server := ip
+		if strings.ContainsAny(":", server) {
+			// IPv6 address
+			server = "[" + server + "]:53"
+		} else {
+			// IPv4 address
+			server = server + ":53"
+		}
+
+		log.Printf("starting to listen on %s", server)
+
+		udpServer := &dns.Server{Addr: server, Net: "udp"}
+		tcpServer := &dns.Server{Addr: server, Net: "tcp"}
+
+		wg.Add(2)
+		go func() {
+			defer wg.Done()
+			log.Fatal(udpServer.ListenAndServe())
+		}()
+		go func() {
+			defer wg.Done()
+			log.Fatal(tcpServer.ListenAndServe())
+		}()
+	}
+	wg.Wait()
 
 }

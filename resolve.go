@@ -21,7 +21,7 @@ func resolve(config *Configuration, w dns.ResponseWriter, req *dns.Msg) {
 			route = "nsec3"
 		}
 	}
-	log.Printf("routing request %-32s from %-40s to %s", qname, w.RemoteAddr().String(), route)
+	log.Printf("routing request %-32s on %-40s from %-40s to %s", qname, w.LocalAddr().String(), w.RemoteAddr().String(), route)
 	switch route {
 	case "nsec0":
 		resolveNSEC0(config, w, req)
