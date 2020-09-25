@@ -9,58 +9,48 @@ import (
 	"github.com/miekg/dns"
 )
 
+var re = regexp.MustCompile("nsec[0,1,3,4,5,a-h].")
+
 func resolve(config *Configuration, w dns.ResponseWriter, req *dns.Msg) {
 	qname := req.Question[0].Name
-
-	re := regexp.MustCompile("nsec.")
-	switch re.FindString(dns.CanonicalName(qname)) {
+	route := re.FindString(dns.CanonicalName(qname))
+	if len(route) != 5 {
+		if rand.Intn(2) < 1 {
+			route = "nsec1"
+		} else {
+			route = "nsec3"
+		}
+	}
+	log.Printf("routing request %-32s from %-40s to %s", qname, w.RemoteAddr().String(), route)
+	switch route {
 	case "nsec0":
-		log.Printf("routing NSEC0   request %s\n", qname)
 		resolveNSEC0(config, w, req)
 	case "nsec1":
-		log.Printf("routing NSEC    request %s to       %s\n", qname, config.UpstreamNSEC)
 		resolveUpstream(config.UpstreamNSEC, w, req)
 	case "nsec3":
-		log.Printf("routing NSEC3   request %s to       %s\n", qname, config.UpstreamNSEC3)
 		resolveUpstream(config.UpstreamNSEC3, w, req)
 	case "nsec4":
-		log.Printf("routing NSEC4   request %s\n", qname)
 		resolveNSEC4(config, w, req)
 	case "nsec5":
-		log.Printf("routing NSEC5   request %s\n", qname)
 		resolveNSEC5(config, w, req)
 	case "nseca":
-		log.Printf("routing NSECA   request %s\n", qname)
 		resolveNSECA(config, w, req)
 	case "nsecb":
-		log.Printf("routing NSECB   request %s\n", qname)
 		resolveNSECB(config, w, req)
 	case "nsecc":
-		log.Printf("routing NSECC   request %s\n", qname)
 		resolveNSECC(config, w, req)
 	case "nsecd":
-		log.Printf("routing NSECD   request %s\n", qname)
 		resolveNSECD(config, w, req)
 	case "nsece":
-		log.Printf("routing NSECE   request %s\n", qname)
 		resolveNSECE(config, w, req)
 	case "nsecf":
-		log.Printf("routing NSECF   request %s\n", qname)
 		resolveNSECF(config, w, req)
 	case "nsecg":
-		log.Printf("routing NSECG   request %s\n", qname)
 		resolveNSECG(config, w, req)
 	case "nsech":
-		log.Printf("routing NSECH   request %s\n", qname)
 		resolveNSECH(config, w, req)
 	default:
-		if rand.Intn(2) < 1 {
-			log.Printf("routing DEFAULT request %s to NSEC  %s\n", qname, config.UpstreamNSEC)
-			resolveUpstream(config.UpstreamNSEC, w, req)
-		} else {
-			log.Printf("routing DEFAULT request %s to NSEC3 %s\n", qname, config.UpstreamNSEC3)
-			resolveUpstream(config.UpstreamNSEC3, w, req)
-		}
+		log.Println("ERROR - routed to default")
 	}
 	return
 }
