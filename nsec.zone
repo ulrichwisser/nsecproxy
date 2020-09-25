@@ -3,7 +3,7 @@
 ; name server
 ;
 @          	5	NS	ns.setest.se.
-ns       	5	A	54.154.70.90
+ns       	5	A	127.0.0.1
 ;
 ; disable mail
 ;
