@@ -26,7 +26,7 @@ func getConfig() *Configuration {
 	// define and parse command line arguments
 	pflag.StringVar(&conffilename, "conf", "", "Filename to read configuration from")
 	pflag.CountVarP(&config.Verbose, "verbose", "v", "print more information while running")
-	pflag.StringSliceVarP(&config.IPlist, "ip", "ip", []string{}, "IPv4 or IPv6 address(es) to listen on")
+	pflag.StringSliceVar(&config.IPlist, "ip", []string{}, "IPv4 or IPv6 address(es) to listen on")
 	pflag.Parse()
 
 	var confFromFile *Configuration
