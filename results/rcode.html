@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.21/css/jquery.dataTables.css">
+    <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.21/js/jquery.dataTables.js"></script>
+<style>
+th { text-align: left;}
+a {
+  color: black;
+  text-decoration: underline;
+}
+
+/* visited link */
+a:visited {
+  color: green;
+}
+
+/* mouse over link */
+a:hover {
+  color: hotpink;
+}
+
+/* selected link */
+a:active {
+  color: blue;
+}
+</style>
+<script>
+function getAllRcodes(data){
+	props = {}
+	for (let d in data) {
+		for (let r in data[d])
+		props[r]=1
+	}
+	return Object.keys(props).sort()
+}
+
+function printTable(data) {
+    var name="test";
+	rcodes = getAllRcodes(data);
+	var html = `
+		<div id="${name}">
+			<table id="${name}table">
+				<thead>
+					<tr>
+						<th>Test</th>`;
+	for (let r in rcodes) {
+		html += '<th>' + rcodes[r] +'</th>'
+	}
+	html += `
+					</tr>
+				</thead>
+				<tbody>`;
+	for (let m in data) {
+		html += "<tr>";
+		html += "<td>"+m+"</td>";
+		for (let r in rcodes) {
+		    html += "<td>"+data[m][rcodes[r]]+"</td>";
+		}
+		html += "</tr>";
+	}
+	html += `	</tbody>
+			</table>
+		</div>`;
+	document.body.innerHTML = document.body.innerHTML + html;
+	$(document).ready( function () {
+			$('#'+name+'table').DataTable({ paging: false, searching: false, });
+	} );
+};
+</script>
+</head>
+<body>
+<h1>Resolvertest</h1>
+
+
+<script>
+	var oldurl = new URL(window.location.href);
+	let url =  new URL(oldurl.searchParams.get("data"), document.URL);
+    console.log(url)
+    fetch(url)
+    	.then(res => res.json())
+      	.then((data) => {
+				printTable(data)
+		})
+		.catch(err => { throw err });
+</script>
+</body>
+</html>
