@@ -16,3 +16,6 @@
 
 # project binary
 nsecproxy
+nsectest/nsectest
+nsecstats/nsecstats
+nameservers.csv
