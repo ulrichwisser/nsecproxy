@@ -9,7 +9,7 @@ import (
 	"github.com/miekg/dns"
 )
 
-var re = regexp.MustCompile("nsec[0,1,3,4,5,a-h].")
+var re = regexp.MustCompile("nsec[0,1,3,4,5,a-h]")
 
 func resolve(config *Configuration, w dns.ResponseWriter, req *dns.Msg) {
 	qname := req.Question[0].Name
