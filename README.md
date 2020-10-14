@@ -85,3 +85,6 @@ your ip list. Please add A and AAAA records as needed.
 # Run tests
 If you have installed the authoritative servers and the nsecproxy and updated the DNS data at the registry
 you are ready to run tests. Please follow the instructions for the [nsectest](https://github.com/ulrichwisser/nsecproxy/nsectest) client.
+
+# Show statistics
+After running the tests, please follow the instructions for [nsecstats](https://github.com/ulrichwisser/nsecproxy/nsecstats) on how to produce and view the test results.
