@@ -80,4 +80,4 @@ nsectest -v -d example.com -R nameservers.csv > ../results/nameservers.json
 ```
 
 # Results
-Please follow the instruction for [nsecstats](https://github.com/ulrichwisser/nsecproxy/nsecstats) on how to produce and view the results.
+Please follow the instruction for [nsecstats](../nsecstats) on how to produce and view the results.
