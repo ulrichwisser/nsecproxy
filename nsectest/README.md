@@ -20,43 +20,43 @@ Besides these cases there are several cases with DNSSEC failures
 - data with nsec
 - data with nsec3
 ### Testing commands
-####; no data - no wildcard
+#### ; no data - no wildcard
 dig +dnssec nsec1.a.$NSECPROXYDOMAIN aaaa
 dig +dnssec nsec3.a.$NSECPROXYDOMAIN aaaa
 dig +dnssec nsec4.a.$NSECPROXYDOMAIN aaaa
 dig +dnssec nsec5.a.$NSECPROXYDOMAIN aaaa
-####; no data - wildcard
+#### ; no data - wildcard
 dig +dnssec nsec1.b.$NSECPROXYDOMAIN aaaa
 dig +dnssec nsec3.b.$NSECPROXYDOMAIN aaaa
 dig +dnssec nsec4.b.$NSECPROXYDOMAIN aaaa
 dig +dnssec nsec5.b.$NSECPROXYDOMAIN aaaa
-####; name error - no wildcard
+#### ; name error - no wildcard
 dig +dnssec nsec1.c.$NSECPROXYDOMAIN aaaa
 dig +dnssec nsec3.c.$NSECPROXYDOMAIN aaaa
 dig +dnssec nsec4.c.$NSECPROXYDOMAIN aaaa
 dig +dnssec nsec5.c.$NSECPROXYDOMAIN aaaa
-####; empty non terminal
+#### ; empty non terminal
 dig +dnssec nsec1.d.$NSECPROXYDOMAIN aaaa
 dig +dnssec nsec3.d.$NSECPROXYDOMAIN aaaa
 dig +dnssec nsec4.d.$NSECPROXYDOMAIN aaaa
 dig +dnssec nsec5.d.$NSECPROXYDOMAIN aaaa
-####; failure - no nsec data
+#### ; failure - no nsec data
 dig +dnssec a.nseca.$NSECPROXYDOMAIN aaaa
-####; failure - NSEC does not cover label
+#### ; failure - NSEC does not cover label
 dig +dnssec b.nsecb.$NSECPROXYDOMAIN aaaa
-####; failure - NSEC3 does not cover label
+#### ; failure - NSEC3 does not cover label
 dig +dnssec b.nsecc.$NSECPROXYDOMAIN aaaa
-####; failure - NSEC and NSEC3 non covers label
+#### ; failure - NSEC and NSEC3 non covers label
 dig +dnssec b.nsecd.$NSECPROXYDOMAIN aaaa
-####; failure - NSEC does cover label, NSEC3 does not cover label
+#### ; failure - NSEC does cover label, NSEC3 does not cover label
 dig +dnssec b.nsece.$NSECPROXYDOMAIN aaaa
 dig +dnssec d.nsece.$NSECPROXYDOMAIN aaaa
-####; failure - NSEC does not cover label, NSEC3 does cover label
+#### ; failure - NSEC does not cover label, NSEC3 does cover label
 dig +dnssec b.nsecf.$NSECPROXYDOMAIN aaaa
 dig +dnssec d.nsecf.$NSECPROXYDOMAIN aaaa
-####; failure - data with nsec
+#### ; failure - data with nsec
 dig +dnssec b.nsecg.$NSECPROXYDOMAIN txt
-####; failure - data with nsec3
+#### ; failure - data with nsec3
 dig +dnssec b.nsegh.$NSECPROXYDOMAIN txt
 
 ## Resolvers for Testing
